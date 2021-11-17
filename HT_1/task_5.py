@@ -7,4 +7,5 @@ Write a script to convert decimal to hexadecimal
 number = list(map(int, input().split()))
 print('Decimal to hexdecimal:', end=' ')
 for i in number:
-    print(hex(i), end = ',')
+    #print((hex(i).split('x')[-1]), end = ' ')
+    print(hex(i)[2:], end=' ')
