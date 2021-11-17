@@ -2,6 +2,9 @@
 Write a script to concatenate N strings.
 '''
 
-random_string = ['Something', 'else']
-new_string = '-'.join(random_string)
-print('New string:', new_string)
+number_of_strings = int(input())
+end_string = ''
+for i in range(number_of_strings):
+    random_string = input('Input string: ')
+    end_string += random_string
+print(end_string)
