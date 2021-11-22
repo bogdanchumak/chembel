@@ -7,10 +7,14 @@
                 {'a': 1, 'b': 3, 'd': 5}
 '''
 
-example_dict = {'a': 25, 'b': 22, 'c': 55, 'd': 55}
+example_dict = {'a': 25, 'b': 22, 'c': 55, 'd': 55, 'f': [1, 2, 3]}
 print('Initial dictionary: ', example_dict)
-print('Dictionary without duplicates: ',
-      {v:k for k,v in {example_dict[k]:k for k in reversed(list(example_dict))}.items()})
+
+example_list = set(v for value in example_dict.values() for v in (
+    value if isinstance(value, list) else [value]))
+
+
+print('Dictionary without duplicates: ', set(example_list))
 
 
 
