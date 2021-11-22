@@ -8,13 +8,12 @@
 '''
 
 example_dict = {'a': 25, 'b': 22, 'c': 55, 'd': 55, 'f': [1, 2, 3]}
-print('Initial dictionary: ', example_dict)
+new_dict = {}
+for key, value in example_dict.items():
+    if value not in new_dict.values():
+        new_dict[key] = value
 
-example_list = set(v for value in example_dict.values() for v in (
-    value if isinstance(value, list) else [value]))
-
-
-print('Dictionary without duplicates: ', set(example_list))
+print('Output:', new_dict)
 
 
 
