@@ -28,12 +28,17 @@ def my_func(random_string):
         print('Count of letters:', count_of_letters(random_string))
     elif len(random_string) < 30:
         sum_of_numbers = 0
+        string_without_digits = ''
         for i in random_string:
             if i.isdigit():
                 sum_of_numbers += int(i)
         print('Sum of numbers:', sum_of_numbers)
+        for letter in random_string:
+            if not letter.isdigit():
+                string_without_digits += letter
+        print('String without digits:', string_without_digits)
     elif len(random_string) > 50:
-        print("I'm too lazy")
+        print("It's huge string!")
     return
 def count_of_digits(random_string):
     count_of_digit = 0
