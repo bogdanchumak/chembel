@@ -4,14 +4,16 @@
 '''
 
 def season(month):
-    if month in range(1, 4):
+    if month in range(1, 3):
         print('Winter')
-    elif month in range(4, 7):
+    elif month in range(3, 6):
         print('Spring')
-    elif month in range(7, 10):
+    elif month in range(6, 9):
         print('Summer')
-    elif month in range(10, 13):
+    elif month in range(9, 11):
         print('Autumn')
+    elif month == 12:
+        print('Winter')
     return
 
 month = int(input('Input number: '))
