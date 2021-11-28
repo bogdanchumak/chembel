@@ -7,9 +7,9 @@
 Функція повинна принтануть і вернуть суму, яка буде на рахунку.
 '''
 
-def bank(a, years):
+def bank(a, years, percent = 1.1):
     for year in range(years):
-        a *= 1.1
+        a *= percent
         a = float('{:.3f}'.format(a))
     return a
 print(bank(1000, 5))
