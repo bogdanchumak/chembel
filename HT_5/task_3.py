@@ -27,12 +27,15 @@ def validation(username, password):
     if 3 < len(username) < 50 and (len(password) > 8 and number > 0):
         print('Status: OK')
     elif len(username) <= 3:
-        raise ValidationError
-    elif len(password) < 8 or number == 0:
-        raise ValidationError
+        raise ValidationError('Пароль повинен містити хоча б одну цифру')
+    elif len(password) < 8:
+        raise ValidationError('Пароль повинен бути не меншим за 8 символів')
+    elif len(username) > 50 or len(username) < 3:
+        raise ValidationError("ім'я повинно бути не меншим за 3 символа і не більшим за 50")
 
 
-list_of_users = {'user1': 'g123456789', 'slip': 'password'}
+
+list_of_users = {'user1': '123456789', 'slip': 'passd'}
 
 
 try:
@@ -41,4 +44,4 @@ try:
         print('Password:', password)
         validation(username, password)
 except ValidationError:
-    print(ValidationError('Status: Введіть валідні дані'))
+    ValidationError
