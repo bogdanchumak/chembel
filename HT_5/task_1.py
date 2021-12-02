@@ -17,11 +17,10 @@ def funct(username, password, silent = False):
     list_of_users = [{'user1': 123124, 'user2': 521, 'user3': 1525, 'user4': 435, 'user5': 1234}]
     for el in list_of_users:
         items = el.items()
-    if (username, password) in items and silent == False:
+    if (username, password) in items:
         print(True)
-    elif (username, password) not in items or silent == True:
+    elif (username, password) not in items and silent == True:
         raise LoginException
 
 
-funct('user1', 521)
-
+funct('user1', 123124, True)
