@@ -4,5 +4,5 @@
    Перевірка: [5, 10, 20, 25, 35, 40, 50, 55, 65, 70, 80, 85, 95]
 '''
 
-example_list = [el for el in range(0, 100) if el % 5 == 0 or not el/3]
+example_list = [el for el in range(0, 100) if el % 5 == 0 and not el % 3 == 0]
 print('List', example_list)
