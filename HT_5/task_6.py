@@ -4,7 +4,8 @@
    P.P.S. Для повного розуміння цієї функції -
    можна почитати документацію по ній: https://docs.python.org/3/library/stdtypes.html#range
 '''
-
+class Error(Exception):
+    pass
 def my_range(*args):
     if len(args) == 3:
         start = args[0]
@@ -22,9 +23,19 @@ def my_range(*args):
         raise TypeError()
     k = start
     result = []
-    while k < stop:
+    if step == 0:
+        raise ValueError
+    if k < stop and step < 0:
+        raise Error('Введіть додатнє значення "step"')
+    while k > stop and step > 0:
+        result.append(k)
+        k -= step
+    while k < stop and step > 0:
+        result.append(k)
+        k += step
+    while k > stop and step < 0:
         result.append(k)
         k += step
     yield result
 
-print(*my_range(1, 5, 2))
+print(*my_range(100, 55, -5))
