@@ -21,6 +21,10 @@ class ValidationError(Exception):
 
 def validation(username, password):
     number = 0
+    upper = 0
+    for j in password:
+        if j.isupper():
+            upper += 1
     for i in password:
         if i.isdigit():
             number += 1
@@ -32,6 +36,8 @@ def validation(username, password):
         raise ValidationError('Пароль повинен бути не меншим за 8 символів')
     elif len(username) > 50 or len(username) < 3:
         raise ValidationError("ім'я повинно бути не меншим за 3 символа і не більшим за 50")
+    elif upper == 0:
+        raise ValidationError('пароль повинен містити хоча б одну велику букву')  # ЩОСЬ СВОЄ :)
 
 
 
