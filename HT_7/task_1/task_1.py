@@ -27,27 +27,29 @@ import csv
 import json
 
 
-
 def start():
     random = validation()
-    print(
-        """
-            MENU:
-            1: Поточний баланс
-            2: Поповнити баланс
-            3: Зняти кошти
-            4: Вихід
-            """)
-    option = input("Оберіть операцію:\n")
-    if option == '1':
-        print('Поточний баланс:', view_balance(random))
-    if option == '2':
-        make_a_deposit(random)
-    if option == '3':
-        withdraw(random)
-    if option == '4':
+    if not random:
         return
-    return
+    ans = True
+    while ans:
+        print("""
+                MENU:
+                1: Поточний баланс
+                2: Поповнити баланс
+                3: Зняти кошти
+                4: Вихід
+                """)
+        option = input("Оберіть операцію:\n")
+        if option == '1':
+            print('Поточний баланс:', view_balance(random))
+        if option == '2':
+            make_a_deposit(random)
+        if option == '3':
+            withdraw(random)
+        if option == '4':
+            print('Гарного дня!')
+            return
 
 
 def transactions(value, username):
@@ -66,10 +68,14 @@ def make_a_deposit(username):
     current_deposit = view_balance(username)
     f = open(username + '_balance.csv', 'w', encoding='utf-8')
     deposit_summ = int(input('Введіть суму поповнення: '))
-    summ = int(current_deposit) + deposit_summ
-    f.write(str(summ))
-    f.close()
-    transactions('Користувачем ' + str(username) + ' поповнено рахунок на ' + str(deposit_summ) + ' рублів!', username)
+    if deposit_summ > 0:
+        summ = int(current_deposit) + deposit_summ
+        f.write(str(summ))
+        f.close()
+        transactions('Користувачем ' + str(username) + ' поповнено рахунок на ' + str(deposit_summ) + ' рублів!', username)
+    else:
+        print('Сума не вірна!')
+        return
     return
 
 
@@ -77,15 +83,18 @@ def withdraw(username):
     current_deposit = view_balance(username)
     f = open(username + '_balance.csv', 'w', encoding='utf-8')
     withdraw_summ = int(input('Введіть суму: '))
-    summ = int(current_deposit) - withdraw_summ
-    if summ < 0:
-        f.write(current_deposit)
-        print('Недостатньо коштів!')
+    if withdraw_summ > 0:
+        summ = int(current_deposit) - withdraw_summ
+        if summ < 0:
+            f.write(current_deposit)
+            print('Недостатньо коштів!')
+        else:
+            f.write(str(summ))
+            transactions('Користувачем ' + str(username) + ' знято ' + str(withdraw_summ) + ' рублів!', username)
     else:
-        f.write(str(summ))
-        transactions('Користувачем ' + str(username) + ' знято ' + str(withdraw_summ) + ' рублів!', username)
+        print('Сума не вірна!')
+        return
     return
-
 
 
 def validation():
@@ -98,8 +107,10 @@ def validation():
                 print('Logged in!')
                 return user_input_login
             else:
-                print('User not found!')
-                break
+                print('Password incorrect!')
+                return None
+    print('User not found!')
+    return None
 
 
 def get_info():
