@@ -68,14 +68,16 @@ def make_a_deposit(username):
     current_deposit = view_balance(username)
     f = open(username + '_balance.csv', 'w', encoding='utf-8')
     deposit_summ = int(input('Введіть суму поповнення: '))
-    if deposit_summ > 0:
+    if deposit_summ < 0:
+        f.write(current_deposit)
+        print('Сума не вірна!')
+        return
+    else:
         summ = int(current_deposit) + deposit_summ
         f.write(str(summ))
         f.close()
-        transactions('Користувачем ' + str(username) + ' поповнено рахунок на ' + str(deposit_summ) + ' рублів!', username)
-    else:
-        print('Сума не вірна!')
-        return
+        transactions('Користувачем ' + str(username) + ' поповнено рахунок на ' + str(deposit_summ) + ' рублів!',
+                     username)
     return
 
 
@@ -92,6 +94,7 @@ def withdraw(username):
             f.write(str(summ))
             transactions('Користувачем ' + str(username) + ' знято ' + str(withdraw_summ) + ' рублів!', username)
     else:
+        f.write(current_deposit)
         print('Сума не вірна!')
         return
     return
