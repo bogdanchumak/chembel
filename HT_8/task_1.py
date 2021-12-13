@@ -161,48 +161,66 @@ def make_a_deposit(username):
 def withdraw(username):
     current_deposit = view_balance(username)
     withdraw_input = int(input('Введіть суму: '))
-    with open('bills.json', 'r', encoding='utf-8') as file:
-        file_reader = json.load(file)
-        for banknote_denomination, number_of_bills in file_reader.items():
-            if banknote_denomination == '1000':
-                thousand = withdraw_input // 1000
-                number_of_bills -= thousand
-                file_reader['1000'] = number_of_bills
-            elif banknote_denomination == '500':
-                five_hundred = ((withdraw_input % 1000) % 1000) // 500
-                number_of_bills -= five_hundred
-                file_reader['500'] = number_of_bills
-            elif banknote_denomination == '200':
-                two_hundred = (((withdraw_input % 1000) % 1000) % 500) // 200
-                number_of_bills -= two_hundred
-                file_reader['200'] = number_of_bills
-            elif banknote_denomination == '100':
-                one_hundred = ((((withdraw_input % 1000) % 1000) % 500) % 200) // 100
-                number_of_bills -= one_hundred
-                file_reader['100'] = number_of_bills
-            elif banknote_denomination == '50':
-                fifty = (((((withdraw_input % 1000) % 1000) % 500) % 200) % 100) // 50
-                number_of_bills -= fifty
-                print(fifty)
-                file_reader['50'] = number_of_bills
-            elif banknote_denomination == '20':
-                twenty = ((((((withdraw_input % 1000) % 1000) % 500) % 200) % 100) % 50) // 20
-                number_of_bills -= twenty
-                print(twenty)
-                file_reader['20'] = number_of_bills
-            elif banknote_denomination == '10':
-                ten = (((((((withdraw_input % 1000) % 1000) % 500) % 200) % 100) % 50) % 20) // 10
-                number_of_bills -= ten
-                file_reader['10'] = number_of_bills
-
-    with open('bills.json', 'w', encoding='utf-8') as file:
-        json.dump(file_reader, file, indent=1)
-
-    f = open(username + '_balance.csv', 'w', encoding='utf-8')
-    summa = int(current_deposit) - withdraw_input
-    f.write(str(summa))
-    transactions('Користувачем ' + str(username) + ' знято ' + str(withdraw_input) + ' рублів!', username)
-    f.close()
+    if withdraw_input > int(current_deposit):
+        print('Недостатньо коштів на рахунку!')
+        return withdraw(username)
+    else:
+        # Читання з файлу bills.json
+        with open('bills.json', 'r', encoding='utf-8') as file:
+            file_reader = json.load(file)
+            for banknote_denomination, number_of_bills in file_reader.items():
+                if banknote_denomination == '1000':
+                    thousand = withdraw_input // 1000
+                    number_of_bills -= thousand
+                    file_reader['1000'] = number_of_bills
+                    if thousand > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', thousand)
+                elif banknote_denomination == '500':
+                    five_hundred = ((withdraw_input % 1000) % 1000) // 500
+                    number_of_bills -= five_hundred
+                    file_reader['500'] = number_of_bills
+                    if five_hundred > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', five_hundred)
+                elif banknote_denomination == '200':
+                    two_hundred = (((withdraw_input % 1000) % 1000) % 500) // 200
+                    number_of_bills -= two_hundred
+                    file_reader['200'] = number_of_bills
+                    if two_hundred > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', two_hundred)
+                elif banknote_denomination == '100':
+                    one_hundred = ((((withdraw_input % 1000) % 1000) % 500) % 200) // 100
+                    number_of_bills -= one_hundred
+                    file_reader['100'] = number_of_bills
+                    if one_hundred > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', one_hundred)
+                elif banknote_denomination == '50':
+                    fifty = (((((withdraw_input % 1000) % 1000) % 500) % 200) % 100) // 50
+                    number_of_bills -= fifty
+                    file_reader['50'] = number_of_bills
+                    if fifty > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', fifty)
+                elif banknote_denomination == '20':
+                    twenty = ((((((withdraw_input % 1000) % 1000) % 500) % 200) % 100) % 50) // 20
+                    number_of_bills -= twenty
+                    file_reader['20'] = number_of_bills
+                    if twenty > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', twenty)
+                elif banknote_denomination == '10':
+                    ten = (((((((withdraw_input % 1000) % 1000) % 500) % 200) % 100) % 50) % 20) // 10
+                    number_of_bills -= ten
+                    file_reader['10'] = number_of_bills
+                    if ten > 0:
+                        print('Номінал купюрни:', banknote_denomination, 'Кількість:', ten)
+        # Запис в bills.json
+        with open('bills.json', 'w', encoding='utf-8') as file:
+            json.dump(file_reader, file, indent=1)
+        # Запис в user_balance
+        f = open(username + '_balance.csv', 'w', encoding='utf-8')
+        summa = int(current_deposit) - withdraw_input
+        f.write(str(summa))
+        transactions('Користувачем ' + str(username) + ' знято ' + str(withdraw_input) + ' рублів!', username)
+        f.close()
+    return
 
 
 def validation():
